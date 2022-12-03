@@ -1,6 +1,5 @@
 import numpy as np
 import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
 import cv2
 
 path='./ObjectDetect/dataset/'
@@ -15,5 +14,5 @@ for f in file:
     w,h=img.shape[:2]
     print(w,h)
 
-# l=[10,20,30,90,70,12,24]
-# print(np.argmax(l))    
+l=[10,20,30,90,70,12,24]
+print(np.argmax(l))    

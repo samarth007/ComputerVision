@@ -8,4 +8,5 @@ class cnn(nn.Module):
         print(self.c)
 model=cnn()   
 for p in model.parameters():
-    print(p)     
+    print(p) 
+    print('done')    

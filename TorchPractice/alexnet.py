@@ -1,10 +1,8 @@
-from operator import mod
 import torch
 import torch.nn as nn
 import torchvision.transforms as trans
 import torchvision
 from torch.utils.data import DataLoader
-import matplotlib.pyplot as plt
 import torch.nn.functional as F
 
 batch=1000
