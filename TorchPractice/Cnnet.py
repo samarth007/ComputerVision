@@ -6,7 +6,7 @@ from torch.utils.data import DataLoader
 import torchvision.transforms as transforms
 import torch.nn.functional as F
 
-batch=100
+batch=1
 num_cls=10
 epochs=5
 learn=0.01
@@ -44,53 +44,57 @@ class Convet(nn.Module):
         x=self.fc3(x)
         return x
 
-model=Convet().to(device)
-loss=nn.CrossEntropyLoss()
-optimizer=torch.optim.SGD(model.parameters(),lr=learn)
+# model=Convet().to(device)
+# loss=nn.CrossEntropyLoss()
+# optimizer=torch.optim.SGD(model.parameters(),lr=learn)
 
-n_total_step=len(train_loader)
-for epoch in range(epochs):
-    running_loss=0
-    for j, (image,label) in enumerate(train_loader):
-        image=image.to(device)  #torch.Size([100, 3, 32, 32])
-        label=label.to(device)  #torch.Size([100])
-        start=time.time()
-        y_pred=model(image)
-        l=loss(y_pred,label)
-        l.backward()
-        optimizer.step()
-        optimizer.zero_grad()  
-        running_loss+=l.item()
-    print(f'[{epoch +1}] loss: {running_loss/n_total_step}')    
+# n_total_step=len(train_loader)
+# for epoch in range(epochs):
+#     running_loss=0
+#     for j, (image,label) in enumerate(train_loader):
+#         image=image.to(device)  #torch.Size([100, 3, 32, 32])
+#         label=label.to(device)  #torch.Size([100])
+#         start=time.time()
+#         y_pred=model(image)
+#         l=loss(y_pred,label)
+#         l.backward()
+#         optimizer.step()
+#         optimizer.zero_grad()  
+#         running_loss+=l.item()
+#     print(f'[{epoch +1}] loss: {running_loss/n_total_step}')    
 
 PATH='./TorchPractice/cnn.pth'
-torch.save(model.state_dict(),PATH)
+# torch.save(model.state_dict(),PATH)
 
 
-# loaded_model=Convet()
-# loaded_model.load_state_dict(torch.load(PATH))
-# loaded_model.to(device)
-# loaded_model.eval()
+loaded_model=Convet()
+loaded_model.load_state_dict(torch.load(PATH))
+loaded_model.to(device)
+loaded_model.eval()
 
-# with torch.no_grad():
-#     n_correct=0
-#     n_correct2=0
-#     n_sample=len(test_loader)
+with torch.no_grad():
+    n_correct=0
+    n_correct2=0
+    n_sample=len(test_loader)
 
-#     for images,label in test_loader:
-#         images=images.to(device)
-#         label=label.to(device)
-#         output=model(images)
+    for images,label in test_loader:
+        images=images.to(device)
+        print(images.shape)
+        label=label.to(device)
+        print(label)
+        # output=model(images)
 
-#         _, predicted=torch.max(output,1)
-#         n_correct+=(predicted==label).sum().item()
+        # _, predicted=torch.max(output,1)
+        # n_correct+=(predicted==label).sum().item()
         
-#         output2=loaded_model(images)
-#         _,predicted2=torch.max(output2,1)
-#         n_correct2=(predicted2==label).sum().item()
+        output2=loaded_model(images)
+        print(output2)
+        _,predicted2=torch.max(output2,1)
+        print(predicted2)
+        n_correct2=(predicted2==label).sum().item()  #ref test1.py for explanation
 
-#     acc=n_correct/n_sample * 100
-#     print('Acuracy with original model ',acc)
+    acc=n_correct/n_sample * 100
+    print('Acuracy with original model ',acc)
 
-#     acc1=n_correct2/n_sample * 100
-#     print('Accuracy with saved model ',acc1)
+    acc1=n_correct2/n_sample * 100
+    print('Accuracy with saved model ',acc1)

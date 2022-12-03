@@ -1,4 +1,4 @@
-# from getpass import getpass
+from getpass import getpass
 
 # user=int(input())
 # password=getpass()
@@ -7,7 +7,7 @@
 import numpy as np
 
 w,h=0,0
-data=[1,2,3,4,5]
+data=[1,2,3,4]
 box=data[0:4] * np.array([w,h,w,h])
 print(box)
-print(data[0:2]*np.array([2,2]))
+print(data[0:3]*np.array([2,2,1]))
